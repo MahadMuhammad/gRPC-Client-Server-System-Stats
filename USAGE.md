@@ -13,3 +13,9 @@ git clone --recurse-submodules -b v1.73.0 --depth 1 --shallow-submodules https:/
 ```bash
 docker build -t ss .
 ```
+
+3. Run the docker image, with `pwd` mounted to `/workspace`:
+
+```bash
+docker run -it -v $(pwd):/workspace ss
+```
