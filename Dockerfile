@@ -3,6 +3,10 @@ FROM ubuntu:24.04
 # Folllowing the guidelines, from this: https://grpc.io/docs/languages/cpp/quickstart/
 # TODO: if i have to build from scratch, then I can use this: https://github.com/grpc/grpc/blob/v1.73.0/src/cpp/README.md
 
+# Set timezone (important for some packages) 
+ARG TZ=Asia/Karachi
+RUN ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && echo $TZ > /etc/timezone
+
 
 # Install dependencies
 RUN apt-get update && \
@@ -19,11 +23,21 @@ RUN apt-get install -y libgrpc++-dev libprotobuf-dev protobuf-compiler
 # Install python and pip
 RUN apt-get install -y python3 python3-pip python3-venv
 
+# Install shell : personal preference
+RUN apt-get install -y zsh
+
 # Set up working directory
 WORKDIR /workspace
 
 # Mount the current directory to /workspace
 VOLUME ["/workspace"]
+
+# CLEAN UP APT GET CACHE
+RUN apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN useradd --create-home --home-dir /home/workspace --user-group workspace && echo workspace:workspace | chpasswd \
+    && chsh -s /bin/zsh workspace && echo "workspace ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Clone gRPC repo
 # RUN git clone --recurse-submodules -b v1.73.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc
