@@ -19,7 +19,7 @@ RUN export MY_INSTALL_DIR=$HOME/.local && \
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get install -y build-essential cmake git autoconf libtool pkg-config wget curl unzip g++
+    apt-get install -y build-essential cmake git autoconf libtool pkg-config wget curl unzip g++ clangd
 
 
 # If I am on my main system, then I should build the grpc library from source, but I am in container, so I can use the pre-built binaries
@@ -31,15 +31,12 @@ RUN apt-get update && \
 # we are building from source, so we don't need these pre-built packages
 # RUN apt-get install -y libgrpc++-dev libprotobuf-dev protobuf-compiler
 
-# Install python and pip
-RUN apt-get install -y python3 python3-pip python3-venv
-
 # Install shell : personal preference
 RUN apt-get install -y zsh
 
 
 # CLEAN UP APT GET CACHE
-RUN apt-get clean \
+RUN apt-get clean purge autoremove \
     && rm -rf /var/lib/apt/lists/*
 
 RUN useradd --create-home --home-dir /home/workspace --user-group workspace && echo workspace:workspace | chpasswd \

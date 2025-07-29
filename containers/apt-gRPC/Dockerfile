@@ -17,7 +17,7 @@ VOLUME ["/workspace"]
 
 # Install dependencies
 RUN apt-get update && \
-    apt-get install -y build-essential cmake git autoconf libtool pkg-config wget curl unzip g++
+    apt-get install -y build-essential cmake git autoconf libtool pkg-config wget curl unzip g++ clangd
 
 
 # If I am on my main system, then I should build the grpc library from source, but I am in container, so I can use the pre-built binaries
@@ -32,5 +32,5 @@ RUN apt-get install -y zsh
 
 
 # CLEAN UP APT GET CACHE
-RUN apt-get clean \
+RUN apt-get clean purge autoremove \
     && rm -rf /var/lib/apt/lists/*
