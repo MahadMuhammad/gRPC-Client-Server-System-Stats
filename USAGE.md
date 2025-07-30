@@ -14,6 +14,12 @@ git clone --recurse-submodules -b v1.73.0 --depth 1 --shallow-submodules https:/
 docker build -t ss .
 ```
 
+- Using cpp20, you can specify the C++ standard in the Dockerfile as follows:
+
+```dockerfile
+docker build -t ss-cpp20 containers/cpp20
+```
+
 3. Run the docker image, with `pwd` mounted to `/workspace`:
 
 ```bash

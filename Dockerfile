@@ -43,7 +43,7 @@ RUN useradd --create-home --home-dir /home/workspace --user-group workspace && e
     && chsh -s /bin/zsh workspace && echo "workspace ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 
 # Clone gRPC repo
-RUN git clone --recurse-submodules -b v1.73.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc ~/grpc
+RUN git clone --recurse-submodules -b v1.74.0 --depth 1 --shallow-submodules https://github.com/grpc/grpc ~/grpc
 
 # Set up environment variables for gRPC and Protocol Buffers
 RUN cd ~/grpc && \
